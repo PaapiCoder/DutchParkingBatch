@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,10 +24,15 @@ public class ReportGenerationService {
 	@Autowired
 	private ParkingRepository parkingRepository;
 
-	@Scheduled(cron = "55 23 * * * *")
+	@Scheduled(cron = "59 23 * * * *")
 	public void reportUnregisteredVehicleJob() {
-		List<ParkingDetail> parkingDetails = parkingRepository.findAll();
-		List<ParkingMonitoringDetail> monitoringDetails = parkingMonitoringRepository.findAll();
+		LocalDate date = LocalDateTime.now().toLocalDate();
+		//All Parked vehicle details for the day
+		List<ParkingDetail> parkingDetails = parkingRepository.findByRegisterDatetimeBetween(
+				LocalDateTime.of(date, LocalTime.MIN), LocalDateTime.of(date,LocalTime.MAX));
+		//All monitoring details of parked vehicle.
+		List<ParkingMonitoringDetail> monitoringDetails = parkingMonitoringRepository.findByRecordingDateBetween(
+				LocalDateTime.of(date, LocalTime.MIN), LocalDateTime.of(date,LocalTime.MAX));
 
 		List<ParkingMonitoringDetail> collect = new ArrayList<>();
 
