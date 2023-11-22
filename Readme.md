@@ -14,7 +14,7 @@ vehicle number and vehicle number collected during monitoring.
 **1. Clone the application**
 
 ```bash
-git clone https://github.com/callicoder/spring-boot-scheduler-example.git
+git clone https://github.com/PaapiCoder/DutchParkingBatch.git
 ```
 
 **2. Build and run the app using maven**
